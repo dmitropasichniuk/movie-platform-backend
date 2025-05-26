@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  movie-backend:
+    container_name: movie-platform-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/usr/src/app/src
+    command: nest start --watch
+    ports:
+      - 3001:${BACKEND_PORT}
+    depends_on:
+      - movie_db
+    working_dir: /usr/src/app
+    restart: unless-stopped
+
+  movie_db:
+    container_name: movie-platform-db
+    image: postgres:17.4
+    restart: always
+    ports:
+      - 5432:${DB_PORT}
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
