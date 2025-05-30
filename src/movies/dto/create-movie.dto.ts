@@ -2,11 +2,11 @@ import { IsString, IsNotEmpty, IsArray, IsNumber, IsDateString, IsOptional, IsUr
 
 export class CreateMovieDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Title не може бути порожнім' })
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Description не може бути порожнім' })
   description: string;
 
   @IsDateString()
@@ -21,7 +21,7 @@ export class CreateMovieDto {
   genre: string[];
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Director не може бути порожнім' })
   director: string;
 
   @IsArray()

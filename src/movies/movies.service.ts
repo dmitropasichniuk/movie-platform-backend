@@ -3,8 +3,8 @@ import { Movie } from './interfaces/movie.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { DefaultResponseDto } from './dto/default-response.dto';
+import { CreateMovieDto } from "./dto";
+import { DefaultResponseDto } from "src/common/dto";
 import { MovieEntity } from './entities/movies.entity';
 
 @Injectable()
@@ -21,6 +21,7 @@ export class MoviesService {
       const savedMovie = await this.movieRepository.save(movie);
       
       return {
+        success: true,
         status: 201,
         message: 'Movie created successfully',
         data: savedMovie
@@ -35,6 +36,7 @@ export class MoviesService {
       const movies = await this.movieRepository.find();
       
       return {
+        success: true,
         status: 200,
         message: 'Movies retrieved successfully',
         data: movies

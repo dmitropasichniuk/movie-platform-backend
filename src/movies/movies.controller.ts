@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
+
 import { MoviesService } from "./movies.service";
-import { CreateMovieDto } from "./dto/create-movie.dto";
-import { DefaultResponseDto } from "./dto/default-response.dto";
+import { DefaultResponseDto } from "src/common/dto";
+import { CreateMovieDto } from "./dto";
 
 @Controller("movies")
 export class MoviesController {
