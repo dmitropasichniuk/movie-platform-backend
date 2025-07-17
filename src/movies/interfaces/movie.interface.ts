@@ -3,11 +3,8 @@ export interface Movie {
   title: string;
   description: string;
   releaseDate: string;
-  durationMinutes: number;
-  genre: string[];
-  director: string;
-  cast: string[];
-  rating: number;
-  posterUrl: string;
-  trailerUrl?: string;
+  genreIds: number[];
+  popularity: number;
+  posterPath: string;
+  videoId?: string;
 }

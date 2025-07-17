@@ -1,11 +1,9 @@
-import { Test } from '@nestjs/testing';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
-import { User } from './interfaces/user.interface';
+import { Test } from "@nestjs/testing";
+import { User, UsersController, UsersService } from "@users";
 
-describe('CatsController', () => {
-  let catsController: UsersController;
-  let catsService: UsersService;
+describe("MoviesController", () => {
+  let moviesController: UsersController;
+  let moviesService: UsersService;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -13,31 +11,28 @@ describe('CatsController', () => {
       providers: [UsersService],
     }).compile();
 
-    catsService = moduleRef.get<UsersService>(UsersService);
-    catsController = moduleRef.get<UsersController>(UsersController);
+    moviesService = moduleRef.get<UsersService>(UsersService);
+    moviesController = moduleRef.get<UsersController>(UsersController);
   });
 
-  describe('findAll', () => {
-    it('should return an array of users', async () => {
+  describe("findAll", () => {
+    it("should return an array of users", async () => {
       const movies: User[] = [
         // {
         //   id: 1,
         //   title: "Inception",
         //   description: "A skilled thief leads a team into dreams to steal secrets.",
         //   releaseDate: "2010-07-16",
-        //   durationMinutes: 148,
-        //   genre: ["Action", "Sci-Fi", "Thriller"],
-        //   director: "Christopher Nolan",
-        //   cast: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"],
+        //   genre_ids: [27, 53, 878],
         //   rating: 8.8,
         //   posterUrl: "https://example.com/inception.jpg",
-        //   trailerUrl: "https://youtube.com/inception-trailer"
+        //   videoId: "https://youtube.com/inception-trailer"
         // },
       ];
       // @ts-ignore
-      catsService.movies = movies;
+      moviesService.movies = movies;
 
-      // expect(await catsController.findAll()).toBe(movies);
+      // expect(await moviesController.findAll()).toBe(movies);
     });
   });
 
@@ -48,23 +43,20 @@ describe('CatsController', () => {
   //       title: "Inception",
   //       description: "A skilled thief leads a team into dreams to steal secrets.",
   //       releaseDate: "2010-07-16",
-  //       durationMinutes: 148,
-  //       genre: ["Action", "Sci-Fi", "Thriller"],
-  //       director: "Christopher Nolan",
-  //       cast: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"],
+  //       genre_ids: [27, 53, 878],
   //       rating: 8.8,
   //       posterUrl: "https://example.com/inception.jpg",
-  //       trailerUrl: "https://youtube.com/inception-trailer"
+  //       videoId: "https://youtube.com/inception-trailer"
   //     };
   //     const expectedCatArray = [user];
 
   //     // @ts-ignore
-  //     expect(catsService.movies).toStrictEqual([]);
+  //     expect(moviesService.movies).toStrictEqual([]);
 
-  //     await catsController.create(user);
+  //     await moviesController.create(user);
 
   //     // @ts-ignore
-  //     expect(catsService.movies).toStrictEqual(expectedCatArray);
+  //     expect(moviesService.movies).toStrictEqual(expectedCatArray);
   //   });
   // });
 });

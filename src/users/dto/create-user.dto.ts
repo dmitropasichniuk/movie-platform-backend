@@ -1,62 +1,51 @@
 import {
   IsEmail,
   IsString,
-  IsOptional,
   MinLength,
   MaxLength,
-  IsPhoneNumber,
-  IsEnum,
   Matches,
   IsNotEmpty,
-  IsInt,
-  Min,
-} from 'class-validator';
-import { UserRole } from '../entities/user.entity';
+} from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
-import { Trim } from 'src/common/decorators';
-import { Type } from 'class-transformer';
+import { Trim } from "@decorators";
 
 export class CreateUserDto {
-  @IsNotEmpty({ message: 'Email не може бути порожнім' })
+  @ApiProperty({
+    description: "Unique username",
+    example: "JohnDoe",
+    minLength: 2,
+    maxLength: 50,
+  })
+  @IsNotEmpty({ message: "userName must not be empty" })
+  @IsString({ message: "userName must be a string" })
   @Trim()
-  @IsEmail({}, { message: 'Неправильний формат email' })
+  @MinLength(2, { message: "userName must be at least 2 characters long" })
+  @MaxLength(50, { message: "userName must not exceed 50 characters" })
+  userName: string;
+
+  @ApiProperty({
+    description: "User email address",
+    example: "john.doe@example.com",
+  })
+  @IsNotEmpty({ message: "Email must not be empty" })
+  @IsString({ message: "Email must be a string" })
+  @Trim()
+  @IsEmail({}, { message: "Invalid email format" })
   email: string;
 
-  @IsNotEmpty({ message: 'First name не може бути порожнім' })
-  @IsString({ message: "Ім'я повинно бути рядком" })
-  @Trim()
-  @MinLength(2, { message: "Ім'я повинно містити мінімум 2 символи" })
-  @MaxLength(50, { message: "Ім'я не повинно перевищувати 50 символів" })
-  firstName: string;
-
-  @IsNotEmpty({ message: 'Last name не може бути порожнім' })
-  @IsString({ message: 'Прізвище повинно бути рядком' })
-  @Trim()
-  @MinLength(2, { message: 'Прізвище повинно містити мінімум 2 символи' })
-  @MaxLength(50, { message: 'Прізвище не повинно перевищувати 50 символів' })
-  lastName: string;
-
-  @IsOptional()
-  @IsPhoneNumber('UA', { message: 'Невірний формат номера телефону' })
-  phone?: string;
-  
-  @IsInt({ message: 'age повинна бути цілим числом' })
-  @Min(1, { message: 'age повинна бути більше 0' })
-  @Type(() => Number)
-  age?: number = 1;
-
-  @IsNotEmpty({ message: 'Password не може бути порожнім' })
-  @IsString({ message: 'Пароль повинен бути рядком' })
-  @MinLength(6, { message: 'Пароль повинен містити мінімум 6 символів' })
-  @Matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-    {
-      message: 'Пароль повинен містити великі та малі літери, цифри та спеціальні символи',
-    },
-  )
+  @ApiProperty({
+    description:
+      "Password must contain uppercase/lowercase letters, a digit, and a special character",
+    example: "Password1@",
+    minLength: 6,
+  })
+  @IsNotEmpty({ message: "Password must not be empty" })
+  @IsString({ message: "Password must be a string" })
+  @MinLength(6, { message: "Password must be at least 6 characters long" })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, {
+    message:
+      "Password must contain uppercase and lowercase letters, a digit, and a special character",
+  })
   password: string;
-
-  @IsOptional()
-  @IsEnum(UserRole, { message: 'Невірна роль користувача' })
-  role?: UserRole;
 }

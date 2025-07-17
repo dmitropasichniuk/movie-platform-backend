@@ -1,12 +1,12 @@
-import { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
-import { MoviesModule } from '../../src/movies/movies.module';
-import { MoviesService } from '../../src/movies/movies.service';
-import { CoreModule } from '../../src/core/core.module';
+import { INestApplication } from "@nestjs/common";
+import { Test } from "@nestjs/testing";
+import * as request from "supertest";
+import { MoviesModule } from "../../src/movies/movies.module";
+import { MoviesService } from "../../src/movies/movies.service";
+import { CoreModule } from "../../src/core/core.module";
 
-describe('Cats', () => {
-  const catsService = { findAll: () => ['test'] };
+describe("Movies", () => {
+  const moviesService = { findAll: () => ["test"] };
 
   let app: INestApplication;
 
@@ -15,7 +15,7 @@ describe('Cats', () => {
       imports: [MoviesModule, CoreModule],
     })
       .overrideProvider(MoviesService)
-      .useValue(catsService)
+      .useValue(moviesService)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -23,8 +23,8 @@ describe('Cats', () => {
   });
 
   it(`/GET movies`, () => {
-    return request(app.getHttpServer()).get('/movies').expect(200).expect({
-      data: catsService.findAll(),
+    return request(app.getHttpServer()).get("/movies").expect(200).expect({
+      data: moviesService.findAll(),
     });
   });
 

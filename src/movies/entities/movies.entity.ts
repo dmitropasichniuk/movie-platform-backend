@@ -2,57 +2,83 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
+  Index,
 } from "typeorm";
+
+import { GenreEntity } from "genre/entities";
 
 @Entity("movies")
 export class MovieEntity {
+  // Ids
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: false, unique: true })
+  externalId: number;
+
+  // Main info
+  @Index()
   @Column({ nullable: false, length: 100 })
   title: string;
 
   @Column({ nullable: false, length: 500 })
   description: string;
 
+  @Index()
   @Column({ nullable: false, type: "date" })
   releaseDate: string;
 
-  @Column({ nullable: false })
-  durationMinutes: number;
+  @Column({ nullable: true, length: 20 })
+  originalLanguage: string;
 
-  @Column({ nullable: false, type: "text", array: true })
-  genre: string[];
+  @Column({ nullable: true })
+  adult?: boolean;
 
-  @Column({ nullable: true, length: 100 })
-  director?: string;
+  // imgs
+  @Column({ nullable: false, length: 200 })
+  posterPath: string;
 
-  @Column({ nullable: false, type: "text", array: true })
-  cast: string[];
+  @Column({ nullable: false, length: 200 })
+  backdropPath: string;
 
+  // Trailer
+  @Column({ length: 250, nullable: true })
+  videoId?: string;
+
+  // Genre
+  @ManyToMany(() => GenreEntity)
+  @JoinTable()
+  genres: GenreEntity[];
+
+  // Statistics
+  @Index()
   @Column({
     nullable: true,
     type: "decimal",
-    precision: 3,
-    scale: 1,
+    precision: 5,
+    scale: 2,
     transformer: {
       to: (value: number) => value,
       from: (value: string) => parseFloat(value),
     },
   })
-  rating?: number;
+  popularity?: number;
 
-  @Column({ nullable: false, length: 200 })
-  posterUrl: string;
+  @Index()
+  @Column({
+    nullable: true,
+    type: "decimal",
+    precision: 5,
+    scale: 2,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  voteAverage: number;
 
-  @CreateDateColumn({ nullable: false, type: "date" })
-  createdAt: Date;
-
-  @UpdateDateColumn({ nullable: false, type: "date" })
-  updatedAt: Date;
-
-  @Column({ length: 250, nullable: true })
-  trailerUrl?: string;
+  @Column({ nullable: true, type: "int" })
+  voteCount: number;
 }

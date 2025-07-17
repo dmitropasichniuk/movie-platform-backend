@@ -1,25 +1,19 @@
-import { UserResponseDto } from '../dto';
-import { UserRole } from '../entities/user.entity';
+import { UserResponseDto } from "@users";
+import { UserRole } from "@enums";
 
 export interface User {
   id: string;
-  email: string;
+  userName: string;
   firstName: string;
   lastName: string;
-  role: UserRole;
+  email: string;
+  phone?: string;
+  age?: number;
+  role?: UserRole;
   createdAt: Date;
   updatedAt: Date;
   fullName: string;
   avatar?: string;
-}
-
-export interface CreateUser {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  avatar?: string;
-  role?: UserRole;
 }
 
 export interface UpdateUser {
@@ -31,7 +25,7 @@ export interface UpdateUser {
 }
 
 export interface LoginUser {
-  email: string;
+  userName: string;
   password: string;
 }
 

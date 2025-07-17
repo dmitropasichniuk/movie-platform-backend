@@ -8,13 +8,19 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src:/usr/src/app/src
-    command: nest start --watch
+    command: sh -c "npm run seed && nest start --watch"
     ports:
       - 3001:${BACKEND_PORT}
     depends_on:
       - movie_db
     working_dir: /usr/src/app
     restart: unless-stopped
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
 
   movie_db:
     container_name: movie-platform-db

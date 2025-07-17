@@ -3,7 +3,9 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-} from '@nestjs/common';
+  HttpStatus,
+} from "@nestjs/common";
+import { LoggerService } from "@utils";
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
@@ -11,10 +13,25 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
-    const statusCode = exception.getStatus();
+    const status =
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    response.status(statusCode).json({
-      statusCode,
+    const message =
+      exception instanceof HttpException ? exception.getResponse() : exception;
+
+    LoggerService.error(
+      HttpExceptionFilter.name,
+      `[${request.method}] ${request.url} - Status: ${status} - Message: ${JSON.stringify(
+        message
+      )}`,
+      exception instanceof Error ? exception.stack : undefined
+    );
+
+    response.status(status).json({
+      statusCode: status,
+      message,
       timestamp: new Date().toISOString(),
       path: request.url,
     });
