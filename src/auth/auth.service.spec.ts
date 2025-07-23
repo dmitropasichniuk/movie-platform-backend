@@ -95,7 +95,7 @@ describe("AuthService", () => {
       userRepo.findOne.mockResolvedValue({ id: 1 } as unknown as UserEntity);
 
       await expect(service.register(registerDto)).rejects.toThrow(
-        BadRequestException
+        BadRequestException,
       );
     });
 
@@ -166,7 +166,7 @@ describe("AuthService", () => {
 
     it("should throw if password not provided", async () => {
       await expect(
-        service.login({ userName: "test", password: "" })
+        service.login({ userName: "test", password: "" }),
       ).rejects.toThrow(BadRequestException);
     });
 
@@ -175,7 +175,7 @@ describe("AuthService", () => {
       userRepo.findOne.mockResolvedValue(null);
 
       await expect(service.login(loginDto)).rejects.toThrow(
-        UnauthorizedException
+        UnauthorizedException,
       );
     });
 
@@ -186,7 +186,7 @@ describe("AuthService", () => {
       bcryptCompareMock.mockResolvedValue(false);
 
       await expect(service.login(userEntity)).rejects.toThrow(
-        UnauthorizedException
+        UnauthorizedException,
       );
     });
   });

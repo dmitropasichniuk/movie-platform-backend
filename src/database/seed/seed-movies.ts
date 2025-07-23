@@ -25,12 +25,12 @@ export const seedMovies = async (dataSource: DataSource) => {
         await movieRepo.save({ ...movieSanitized, genres });
         LoggerService.log(
           "SeedMovies",
-          `Inserted movie: ${movieSanitized.title}`
+          `Inserted movie: ${movieSanitized.title}`,
         );
       } else {
         LoggerService.log(
           "SeedMovies",
-          `Skipped existing movie: ${movieSanitized.title}`
+          `Skipped existing movie: ${movieSanitized.title}`,
         );
       }
     } catch (err) {

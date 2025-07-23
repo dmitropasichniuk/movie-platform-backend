@@ -26,7 +26,7 @@ export class YouTubeService {
       if (items && items.length > 0) {
         LoggerService.log(
           YouTubeService.name,
-          `Found trailer for ${movieTitle}: ${items[0].id.videoId}`
+          `Found trailer for ${movieTitle}: ${items[0].id.videoId}`,
         );
         return items[0].id.videoId;
       }
@@ -36,10 +36,10 @@ export class YouTubeService {
       LoggerService.error(
         YouTubeService.name,
         `Failed to fetch trailer for ${movieTitle}`,
-        err.stack
+        err.stack,
       );
       throw new InternalServerErrorException(
-        "Failed to fetch trailer from YouTube"
+        "Failed to fetch trailer from YouTube",
       );
     }
   }

@@ -88,7 +88,7 @@ export class UsersController {
   @ApiResponse({ status: 403, description: "Access denied" })
   @ApiSearchThrottle(200, 1)
   async findAll(
-    @Query() queryDto: QueryUsersDto
+    @Query() queryDto: QueryUsersDto,
   ): Promise<DefaultResponseDto<PaginatedUsers>> {
     const users = await this.usersService.findAll(queryDto);
 
@@ -118,7 +118,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: "User not found" })
   @ApiSearchThrottle(200, 1)
   async findOne(
-    @Param("id", ParseUUIDPipe) id: string
+    @Param("id", ParseUUIDPipe) id: string,
   ): Promise<DefaultResponseDto<UserResponseDto>> {
     const user = await this.usersService.findOneById(id);
 
@@ -166,7 +166,7 @@ export class UsersController {
   })
   async update(
     @Param("id", ParseUUIDPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<DefaultResponseDto<UserResponseDto>> {
     const user = await this.usersService.update(id, updateUserDto);
 
@@ -202,11 +202,11 @@ export class UsersController {
   @ApiPasswordResetThrottle(5, 1)
   async updatePassword(
     @Body() updatePasswordDto: UpdatePasswordDto,
-    @CurrentUser() userEntity: UserEntity
+    @CurrentUser() userEntity: UserEntity,
   ): Promise<DefaultResponseDto<UserResponseDto>> {
     const user = await this.usersService.updatePassword(
       userEntity.id,
-      updatePasswordDto
+      updatePasswordDto,
     );
 
     return {
@@ -235,7 +235,7 @@ export class UsersController {
   @ApiResponse({ status: 403, description: "Access denied" })
   @ApiResponse({ status: 404, description: "User not found" })
   async remove(
-    @Param("id", ParseUUIDPipe) id: string
+    @Param("id", ParseUUIDPipe) id: string,
   ): Promise<DefaultResponseDto<null>> {
     await this.usersService.remove(id);
 
@@ -266,7 +266,7 @@ export class UsersController {
   @ApiResponse({ status: 403, description: "Access denied" })
   @ApiResponse({ status: 404, description: "User not found" })
   async restore(
-    @Param("id", ParseUUIDPipe) id: string
+    @Param("id", ParseUUIDPipe) id: string,
   ): Promise<DefaultResponseDto<null>> {
     await this.usersService.restore(id);
 
@@ -312,10 +312,10 @@ export class UsersController {
   @ApiResponse({ status: 401, description: "Unauthorized" })
   @ApiResponse({ status: 404, description: "User not found" })
   async getUserFavourites(
-    @CurrentUser() userEntity: UserEntity
+    @CurrentUser() userEntity: UserEntity,
   ): Promise<DefaultResponseDto<MovieResponseDto[]>> {
     const favouriteMovies = await this.usersService.getUserFavourites(
-      userEntity.id
+      userEntity.id,
     );
     return {
       message: "Favorite movies retrieved successfully",
@@ -345,7 +345,7 @@ export class UsersController {
   @ApiResponse({ status: 409, description: "Movie already in favorites" })
   async addFavouriteMovie(
     @Param("movieId", ParseIntPipe) movieId: number,
-    @CurrentUser() userEntity: UserEntity
+    @CurrentUser() userEntity: UserEntity,
   ): Promise<DefaultResponseDto<null>> {
     await this.usersService.addFavouriteMovie(userEntity.id, movieId);
 
@@ -376,7 +376,7 @@ export class UsersController {
   })
   async removeFavourite(
     @Param("movieId", ParseIntPipe) movieId: number,
-    @CurrentUser() userEntity: UserEntity
+    @CurrentUser() userEntity: UserEntity,
   ): Promise<DefaultResponseDto<null>> {
     await this.usersService.removeFavouriteMovie(userEntity.id, movieId);
 

@@ -33,7 +33,7 @@ export function ApiThrottle(options: ThrottleOptions) {
           error: { type: "string", example: "Too Many Requests" },
         },
       },
-    })
+    }),
   );
 }
 

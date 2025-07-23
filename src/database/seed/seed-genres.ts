@@ -17,13 +17,13 @@ export const seedGenres = async (dataSource: DataSource) => {
       } else {
         LoggerService.log(
           "SeedGenres",
-          `Skipped existing genre: ${genre.name}`
+          `Skipped existing genre: ${genre.name}`,
         );
       }
     } catch (error) {
       LoggerService.warn(
         "SeedGenres",
-        `Skipped invalid genre: ${error.message}`
+        `Skipped invalid genre: ${error.message}`,
       );
     }
   }

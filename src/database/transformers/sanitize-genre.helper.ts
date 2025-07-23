@@ -1,7 +1,7 @@
 import { GenreFromApiDto, GenreResponseDto } from "@genre";
 
 export function sanitizeGenreData(
-  raw: GenreFromApiDto
+  raw: GenreFromApiDto,
 ): Partial<GenreResponseDto> {
   return {
     externalId: raw.id,

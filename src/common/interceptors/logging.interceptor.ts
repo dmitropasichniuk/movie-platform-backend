@@ -19,7 +19,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     LoggerService.log(
       LoggingInterceptor.name,
-      `--> ${method} ${url} from ${ip}`
+      `--> ${method} ${url} from ${ip}`,
     );
 
     return next.handle().pipe(
@@ -29,17 +29,17 @@ export class LoggingInterceptor implements NestInterceptor {
 
         LoggerService.log(
           LoggingInterceptor.name,
-          `<-- ${method} ${url} ${status} - ${Date.now() - now}ms`
+          `<-- ${method} ${url} ${status} - ${Date.now() - now}ms`,
         );
       }),
       catchError((err) => {
         LoggerService.error(
           LoggingInterceptor.name,
           `! ${method} ${url} failed after ${Date.now() - now}ms`,
-          err?.stack
+          err?.stack,
         );
         return throwError(() => err);
-      })
+      }),
     );
   }
 }

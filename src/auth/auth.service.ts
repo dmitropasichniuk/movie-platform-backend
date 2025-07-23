@@ -18,7 +18,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     @InjectRepository(UserEntity)
-    private readonly userRepo: Repository<UserEntity>
+    private readonly userRepo: Repository<UserEntity>,
   ) {}
 
   async register(dto: CreateUserDto): Promise<AuthResponseDto> {
@@ -44,7 +44,7 @@ export class AuthService {
         user: savedUser,
         accessToken,
       },
-      { excludeExtraneousValues: true }
+      { excludeExtraneousValues: true },
     );
   }
 
@@ -62,7 +62,7 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(
       dto.password,
-      userWithPassword.password
+      userWithPassword.password,
     );
     if (!isMatch) throw new UnauthorizedException("Invalid credentials");
 
@@ -78,7 +78,7 @@ export class AuthService {
         user: fullUser,
         accessToken,
       },
-      { excludeExtraneousValues: true }
+      { excludeExtraneousValues: true },
     );
   }
 

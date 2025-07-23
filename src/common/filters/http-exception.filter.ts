@@ -24,9 +24,9 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     LoggerService.error(
       HttpExceptionFilter.name,
       `[${request.method}] ${request.url} - Status: ${status} - Message: ${JSON.stringify(
-        message
+        message,
       )}`,
-      exception instanceof Error ? exception.stack : undefined
+      exception instanceof Error ? exception.stack : undefined,
     );
 
     response.status(status).json({

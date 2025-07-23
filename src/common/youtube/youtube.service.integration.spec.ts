@@ -91,7 +91,7 @@ describe("YouTubeService (integration)", () => {
         });
 
       await expect(service.fetchTrailer("Fails")).rejects.toThrow(
-        InternalServerErrorException
+        InternalServerErrorException,
       );
     });
 
@@ -108,7 +108,7 @@ describe("YouTubeService (integration)", () => {
         });
 
       await expect(service.fetchTrailer("Test")).rejects.toThrow(
-        InternalServerErrorException
+        InternalServerErrorException,
       );
     });
   });

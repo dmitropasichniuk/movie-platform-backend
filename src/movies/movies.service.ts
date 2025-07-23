@@ -22,11 +22,11 @@ export class MoviesService {
   constructor(
     @InjectRepository(MovieEntity)
     private readonly movieRepository: Repository<MovieEntity>,
-    private readonly youtubeService: YouTubeService
+    private readonly youtubeService: YouTubeService,
   ) {}
 
   async findWithFilters(
-    dto: MovieFilterDto
+    dto: MovieFilterDto,
   ): Promise<PaginatedResponseDto<MovieResponseDto>> {
     const query = this.movieRepository.createQueryBuilder("movie");
 
@@ -56,7 +56,7 @@ export class MoviesService {
     if (dto.sortBy) {
       query.orderBy(
         `movie.${dto.sortBy}`,
-        dto.order === "ASC" ? "ASC" : "DESC"
+        dto.order === "ASC" ? "ASC" : "DESC",
       );
     }
 
@@ -123,7 +123,7 @@ export class MoviesService {
         await this.movieRepository.save(movie);
         LoggerService.log(
           MoviesService.name,
-          `Saved trailer for movie: ${movie.title}`
+          `Saved trailer for movie: ${movie.title}`,
         );
       }
       return { videoId };

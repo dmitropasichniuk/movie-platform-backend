@@ -24,7 +24,7 @@ export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
-    private readonly moviesService: MoviesService
+    private readonly moviesService: MoviesService,
   ) {}
 
   async findAll(queryDto: QueryUsersDto): Promise<PaginatedUsers> {
@@ -37,7 +37,7 @@ export class UsersService {
     if (search) {
       queryBuilder.where(
         "(user.firstName ILIKE :search OR user.lastName ILIKE :search OR user.email ILIKE :search)",
-        { search: `%${search}%` }
+        { search: `%${search}%` },
       );
     }
 
@@ -57,7 +57,7 @@ export class UsersService {
       data: users.map((user) =>
         plainToClass(UserResponseDto, user, {
           excludeExtraneousValues: true,
-        })
+        }),
       ),
       total,
       page,
@@ -89,7 +89,7 @@ export class UsersService {
 
   async update(
     id: string,
-    updateUserDto: UpdateUserDto
+    updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
     const user = await this.usersRepository.findOne({ where: { id } });
 
@@ -114,7 +114,7 @@ export class UsersService {
 
   async updatePassword(
     id: string,
-    updatePasswordDto: UpdatePasswordDto
+    updatePasswordDto: UpdatePasswordDto,
   ): Promise<UserResponseDto> {
     const user = await this.usersRepository.findOne({
       where: { id },
@@ -132,13 +132,13 @@ export class UsersService {
 
     if (updatePasswordDto.newPassword.length < 8) {
       throw new BadRequestException(
-        "New password must be at least 8 characters"
+        "New password must be at least 8 characters",
       );
     }
 
     if (updatePasswordDto.oldPassword === updatePasswordDto.newPassword) {
       throw new BadRequestException(
-        "New password must differ from old password"
+        "New password must differ from old password",
       );
     }
 
@@ -188,7 +188,7 @@ export class UsersService {
     return user.favouriteMovies.map((movie) =>
       plainToClass(MovieResponseDto, movie, {
         excludeExtraneousValues: true,
-      })
+      }),
     );
   }
 
@@ -234,7 +234,7 @@ export class UsersService {
     const wasFavourite = user.favouriteMovies.some((m) => m.id === movie.id);
     if (wasFavourite) {
       user.favouriteMovies = user.favouriteMovies.filter(
-        (m) => m.id !== movie.id
+        (m) => m.id !== movie.id,
       );
       await this.usersRepository.save(user);
     }

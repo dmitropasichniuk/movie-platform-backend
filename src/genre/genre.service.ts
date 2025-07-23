@@ -10,7 +10,7 @@ import { GenreResponseDto } from "./dto";
 export class GenreService {
   constructor(
     @InjectRepository(GenreEntity)
-    private readonly genreRepository: Repository<GenreEntity>
+    private readonly genreRepository: Repository<GenreEntity>,
   ) {}
 
   async findAll(): Promise<GenreResponseDto[]> {

@@ -18,7 +18,7 @@ let repo: jest.Mocked<Repository<UserEntity>>;
 let moviesService: MoviesService;
 
 export const userEntityFactory = (
-  overrides: Partial<UserEntity> = {}
+  overrides: Partial<UserEntity> = {},
 ): UserEntity => {
   return {
     id: "1",
@@ -133,7 +133,7 @@ describe("UserService", () => {
         .mockResolvedValueOnce(existingUser as UserEntity);
 
       await expect(service.update("1", updateData)).rejects.toThrow(
-        ConflictException
+        ConflictException,
       );
 
       expect(findByEmailSpy).toHaveBeenCalledWith("existing@example.com");
@@ -163,7 +163,7 @@ describe("UserService", () => {
         select: ["id", "password"],
       });
       expect(userWithPassword.validatePassword).toHaveBeenCalledWith(
-        "oldpass123"
+        "oldpass123",
       );
       expect(result).toBeInstanceOf(UserResponseDto);
     });
@@ -183,7 +183,7 @@ describe("UserService", () => {
       repo.findOne.mockResolvedValueOnce(userWithPassword);
 
       await expect(
-        service.updatePassword("1", updatePasswordDto)
+        service.updatePassword("1", updatePasswordDto),
       ).rejects.toThrow(UnauthorizedException);
     });
 
@@ -202,7 +202,7 @@ describe("UserService", () => {
       repo.findOne.mockResolvedValueOnce(userWithPassword);
 
       await expect(
-        service.updatePassword("1", updatePasswordDto)
+        service.updatePassword("1", updatePasswordDto),
       ).rejects.toThrow(BadRequestException);
     });
   });
@@ -225,7 +225,7 @@ describe("UserService", () => {
       repo.softDelete.mockResolvedValueOnce(mockDeleteResult as UpdateResult);
 
       await expect(service.remove("nonexistent-id")).rejects.toThrow(
-        NotFoundException
+        NotFoundException,
       );
 
       expect(repo.softDelete).toHaveBeenCalledWith("nonexistent-id");
@@ -237,7 +237,7 @@ describe("UserService", () => {
       repo.softDelete.mockResolvedValueOnce(mockDeleteResult as UpdateResult);
 
       await expect(service.remove("already-deleted-id")).rejects.toThrow(
-        NotFoundException
+        NotFoundException,
       );
 
       expect(repo.softDelete).toHaveBeenCalledWith("already-deleted-id");

@@ -58,7 +58,7 @@ export class MovieFilterDto {
   @IsOptional()
   @IsBoolean()
   @Transform(({ value }) =>
-    value === "true" ? true : value === "false" ? false : undefined
+    value === "true" ? true : value === "false" ? false : undefined,
   )
   adult?: boolean;
 

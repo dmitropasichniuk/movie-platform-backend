@@ -18,7 +18,7 @@ let qb: jest.Mocked<SelectQueryBuilder<MovieEntity>>;
 
 const movieExternalId = 550;
 const movieEntityFactory = (
-  overrides: Partial<MovieEntity> = {}
+  overrides: Partial<MovieEntity> = {},
 ): MovieEntity => {
   return {
     externalId: 550,
@@ -40,7 +40,7 @@ const movieEntityFactory = (
 };
 
 const movieFilterDtoFactory = (
-  overrides: Partial<MovieFilterDto> = {}
+  overrides: Partial<MovieFilterDto> = {},
 ): MovieFilterDto => {
   return {
     page: 1,
@@ -108,7 +108,7 @@ describe("MoviesService", () => {
       expect(qb.andWhere).toHaveBeenCalled();
       expect(qb.leftJoinAndSelect).toHaveBeenCalledWith(
         "movie.genres",
-        "genre"
+        "genre",
       );
       expect(qb.orderBy).toHaveBeenCalledWith("movie.title", "ASC");
       expect(qb.skip).toHaveBeenCalledWith(0);
@@ -187,7 +187,7 @@ describe("MoviesService", () => {
       movieRepo.findOneBy = jest.fn().mockResolvedValue(null);
 
       await expect(service.getMovieEntityByExternalId(999)).rejects.toThrow(
-        NotFoundException
+        NotFoundException,
       );
     });
   });
@@ -247,7 +247,7 @@ describe("MoviesService", () => {
         .mockRejectedValue(new Error("Failed to retrieve trailer"));
 
       await expect(service.getTrailer(1)).rejects.toThrow(
-        InternalServerErrorException
+        InternalServerErrorException,
       );
     });
   });

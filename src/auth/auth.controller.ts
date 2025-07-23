@@ -36,7 +36,7 @@ export class AuthController {
   })
   @ApiAuthThrottle(5, 1)
   async create(
-    @Body() createUserDto: CreateUserDto
+    @Body() createUserDto: CreateUserDto,
   ): Promise<DefaultResponseDto<AuthResponseDto>> {
     const data = await this.authService.register(createUserDto);
 
@@ -63,7 +63,7 @@ export class AuthController {
   })
   @ApiAuthThrottle(5, 1)
   async login(
-    @Body() dto: LoginUserDto
+    @Body() dto: LoginUserDto,
   ): Promise<DefaultResponseDto<AuthResponseDto>> {
     const data = await this.authService.login(dto);
 
@@ -83,7 +83,7 @@ export class AuthController {
     type: DefaultResponseDto<UserResponseDto>,
   })
   getMe(
-    @CurrentUser() user: UserResponseDto
+    @CurrentUser() user: UserResponseDto,
   ): DefaultResponseDto<UserResponseDto> {
     return {
       message: "User successfully logged in",
