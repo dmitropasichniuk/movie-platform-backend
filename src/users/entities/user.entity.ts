@@ -34,10 +34,10 @@ export class UserEntity {
   password: string;
 
   @Column({ nullable: true, length: 255 })
-  firstName: string;
+  firstName?: string;
 
   @Column({ nullable: true, length: 255 })
-  lastName: string;
+  lastName?: string;
 
   @Column({ nullable: true })
   phone?: string;
@@ -70,7 +70,7 @@ export class UserEntity {
 
   @ManyToMany(() => MovieEntity, { eager: true })
   @JoinTable()
-  favouriteMovies: MovieEntity[];
+  favouriteMovies?: MovieEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()

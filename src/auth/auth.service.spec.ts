@@ -17,16 +17,27 @@ let service: AuthService;
 let userRepo: jest.Mocked<Repository<UserEntity>>;
 let jwtService: jest.Mocked<JwtService>;
 
-const registerUserData: CreateUserDto = {
+const createRegisterUserData = (): CreateUserDto => ({
   userName: "test",
   password: "password",
   email: "test@test.com",
-};
+});
 
-const loginUserData: LoginUserDto = {
+const createLoginUserData = (): LoginUserDto => ({
   userName: "test",
   password: "password",
-};
+});
+
+const userEntityFactory = (): UserEntity =>
+  ({
+    id: "1",
+    email: "test@test.com",
+    userName: "test",
+    password: "password",
+    role: UserRole.USER,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }) as UserEntity;
 
 describe("AuthService", () => {
   beforeEach(async () => {
@@ -58,102 +69,99 @@ describe("AuthService", () => {
 
   describe("register()", () => {
     it("should register new user", async () => {
+      const registerDto = createRegisterUserData();
+
       userRepo.findOne.mockResolvedValue(null);
       userRepo.create.mockReturnValue({
         id: 1,
-        ...registerUserData,
+        ...registerDto,
       } as unknown as UserEntity);
       userRepo.save.mockResolvedValue({
         id: 1,
-        ...registerUserData,
+        ...registerDto,
       } as unknown as UserEntity);
       bcryptHashMock.mockResolvedValue("hashed");
       jwtService.signAsync.mockResolvedValue("token");
 
-      const result = await service.register(registerUserData);
+      const result = await service.register(registerDto);
 
       expect(result).toHaveProperty("user");
       expect(result).toHaveProperty("accessToken");
     });
 
     it("should throw error if user exists", async () => {
+      const registerDto = createRegisterUserData();
+
       userRepo.findOne.mockResolvedValue({ id: 1 } as unknown as UserEntity);
 
-      await expect(service.register(registerUserData)).rejects.toThrow(
+      await expect(service.register(registerDto)).rejects.toThrow(
         BadRequestException
       );
     });
 
     it("should hash password", async () => {
+      const registerDto = createRegisterUserData();
+
       userRepo.findOne.mockResolvedValue(null);
       userRepo.create.mockReturnValue({} as UserEntity);
       userRepo.save.mockResolvedValue({} as UserEntity);
       bcryptHashMock.mockResolvedValue("hashed");
       jwtService.signAsync.mockResolvedValue("token");
 
-      await service.register(registerUserData);
+      await service.register(registerDto);
 
       expect(bcrypt.hash).toHaveBeenCalledWith("password", 10);
     });
 
     it("should set USER role", async () => {
+      const registerDto = createRegisterUserData();
+
       userRepo.findOne.mockResolvedValue(null);
       userRepo.create.mockReturnValue({} as UserEntity);
       userRepo.save.mockResolvedValue({} as UserEntity);
       bcryptHashMock.mockResolvedValue("hashed");
       jwtService.signAsync.mockResolvedValue("token");
 
-      await service.register(registerUserData);
+      await service.register(registerDto);
 
       expect(userRepo.create).toHaveBeenCalledWith({
-        ...registerUserData,
+        ...registerDto,
         password: "hashed",
         role: UserRole.USER,
       });
     });
 
     it("should generate JWT token", async () => {
-      const savedUser = { id: 1, ...registerUserData } as unknown as UserEntity;
+      const userEntity = userEntityFactory();
       userRepo.findOne.mockResolvedValue(null);
-      userRepo.create.mockReturnValue(savedUser);
-      userRepo.save.mockResolvedValue(savedUser);
+      userRepo.create.mockReturnValue(userEntity);
+      userRepo.save.mockResolvedValue(userEntity);
       bcryptHashMock.mockResolvedValue("hashed");
       jwtService.signAsync.mockResolvedValue("token");
 
-      await service.register(registerUserData);
+      await service.register(userEntity);
 
-      expect(jwtService.signAsync).toHaveBeenCalledWith({ sub: 1 });
+      expect(jwtService.signAsync).toHaveBeenCalledWith({ sub: "1" });
     });
   });
 
   describe("login()", () => {
     it("should login user and return accessToken and user", async () => {
-      const userWithPassword = {
-        id: 1,
-        userName: loginUserData.userName,
-        password: "hashedPassword",
-      } as unknown as UserEntity;
+      const loginDto = createLoginUserData();
+      const userEntity = userEntityFactory();
 
-      const fullUser = {
-        ...userWithPassword,
-        email: "test@test.com",
-        role: UserRole.USER,
-      } as unknown as UserEntity;
-
-      userRepo.findOne
-        .mockResolvedValueOnce(userWithPassword)
-        .mockResolvedValueOnce(fullUser);
-      userRepo.findOneOrFail.mockResolvedValue(fullUser);
+      userRepo.findOne.mockResolvedValueOnce(userEntity);
+      userRepo.findOneOrFail.mockResolvedValue(userEntity);
 
       bcryptCompareMock.mockResolvedValue(true);
       jwtService.signAsync.mockResolvedValue("token");
 
-      const result = await service.login(loginUserData);
+      const result = await service.login(loginDto);
 
       expect(result).toHaveProperty("accessToken", "token");
       expect(result).toHaveProperty("user");
       expect(result.user).toMatchObject({ userName: "test" });
-      expect(jwtService.signAsync).toHaveBeenCalledWith({ sub: 1 });
+      expect(jwtService.signAsync).toHaveBeenCalledWith({ sub: "1" });
     });
 
     it("should throw if password not provided", async () => {
@@ -163,24 +171,21 @@ describe("AuthService", () => {
     });
 
     it("should throw if user not found", async () => {
+      const loginDto = createLoginUserData();
       userRepo.findOne.mockResolvedValue(null);
 
-      await expect(service.login(loginUserData)).rejects.toThrow(
+      await expect(service.login(loginDto)).rejects.toThrow(
         UnauthorizedException
       );
     });
 
     it("should throw if password does not match", async () => {
-      const userWithPassword = {
-        id: 1,
-        userName: loginUserData.userName,
-        password: "hashedPassword",
-      } as unknown as UserEntity;
+      const userEntity = userEntityFactory();
 
-      userRepo.findOne.mockResolvedValue(userWithPassword);
+      userRepo.findOne.mockResolvedValue(userEntity);
       bcryptCompareMock.mockResolvedValue(false);
 
-      await expect(service.login(loginUserData)).rejects.toThrow(
+      await expect(service.login(userEntity)).rejects.toThrow(
         UnauthorizedException
       );
     });
