@@ -8,6 +8,7 @@ import {
   IsPhoneNumber,
   IsInt,
   Min,
+  Max,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { Trim } from "@decorators";
@@ -70,6 +71,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsInt({ message: "age must be an integer" })
   @Min(1, { message: "age must be greater than 0" })
+  @Max(120, { message: "age must be less than 120" })
   @Type(() => Number)
   age?: number = 1;
 

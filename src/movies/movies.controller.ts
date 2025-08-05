@@ -130,7 +130,7 @@ export class MoviesController {
   @ApiResponse({ status: 400, description: "Invalid query parameters" })
   @ApiSearchThrottle(500, 1)
   async getMovies(
-    @Query() filterDto: MovieFilterDto,
+    @Query() filterDto: MovieFilterDto
   ): Promise<DefaultResponseDto<PaginatedResponseDto<MovieResponseDto>>> {
     const response = await this.moviesService.findWithFilters(filterDto);
 
@@ -182,7 +182,7 @@ export class MoviesController {
   @ApiResponse({ status: 404, description: "Movie not found" })
   @ApiSearchThrottle(200, 1)
   async findOne(
-    @Param("id") id: number,
+    @Param("id") id: number
   ): Promise<DefaultResponseDto<MovieResponseDto>> {
     const movie = await this.moviesService.findOneBy(id);
 
@@ -217,7 +217,7 @@ export class MoviesController {
   })
   @ApiSearchThrottle(200, 1)
   async getTrailer(
-    @Param("id", ParseIntPipe) externalId: number,
+    @Param("id", ParseIntPipe) externalId: number
   ): Promise<DefaultResponseDto<MovieTrailerResponseDto>> {
     const trailer = await this.moviesService.getTrailer(externalId);
 

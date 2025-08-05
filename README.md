@@ -93,8 +93,8 @@ command: sh -c "npm run seed && nest start --watch"
 
 All API endpoints are available under:
 
-- **Base URL**: `http://localhost:3001/api`
-- **Swagger UI**: `http://localhost:3001/api/docs`
+- **Base URL**: `http://localhost:3001`
+- **Swagger UI**: `http://localhost:3001/api`
 
 The API is fully documented using Swagger (OpenAPI). You can explore all routes, request parameters, and responses there.
 Authentication is required for some endpoints. Use the JWT token in the `Authorization` header (`Bearer <token>`).
@@ -131,7 +131,6 @@ npm run format
   ├── auth/              → User authentication (JWT, login, register)
   ├── common/            → Shared modules: constants, decorators, filters, guards, utils
     ├── youtube/ → External API integration for fetching movie trailers from YouTube
-  ├── core/              → Core module with app-wide services (logger)
   ├── database/          → DB config, seeders, data transformations
   ├── genre/             → Genre module (CRUD, DTOs, service, controller, entity)
   ├── movies/            → Movie module (CRUD, DTOs, service, controller, entitie)

@@ -21,7 +21,6 @@
       "@upload": ["common/upload"],
       "@utils": ["common/utils"],
       "@youtube": ["common/youtube"],
-      "@core": ["core"],
       "@auth": ["auth"],
       "@genre": ["genre"],
       "@movies": ["movies"],

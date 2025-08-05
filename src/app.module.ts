@@ -1,17 +1,17 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { APP_FILTER, APP_GUARD } from "@nestjs/core";
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 import { UsersModule } from "@users";
 import { AuthModule } from "@auth";
-import { CoreModule } from "@core";
 import { MoviesModule } from "@movies";
 import { GenreModule } from "@genre";
 import { HttpExceptionFilter } from "@filters";
 import { LoggerService } from "@utils";
 import { YouTubeModule } from "@youtube";
+import { LoggingInterceptor } from "@interceptors";
 
 @Module({
   imports: [
@@ -34,7 +34,6 @@ import { YouTubeModule } from "@youtube";
       }),
       inject: [ConfigService],
     }),
-    CoreModule,
     MoviesModule,
     UsersModule,
     AuthModule,
@@ -59,6 +58,7 @@ import { YouTubeModule } from "@youtube";
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
   ],
 })
 export class AppModule {}

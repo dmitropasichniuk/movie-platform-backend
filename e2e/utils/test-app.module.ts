@@ -4,7 +4,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AuthModule } from "../../src/auth/auth.module";
 import { UsersModule } from "../../src/users/users.module";
-import { CoreModule } from "../../src/core/core.module";
 import { MoviesModule } from "../../src/movies/movies.module";
 import { GenreModule } from "../../src/genre/genre.module";
 import { YouTubeModule } from "../../src/common/youtube/youtube.module";
@@ -30,7 +29,6 @@ import { YouTubeModule } from "../../src/common/youtube/youtube.module";
       }),
       inject: [ConfigService],
     }),
-    CoreModule,
     MoviesModule,
     UsersModule,
     AuthModule,

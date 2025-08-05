@@ -1,7 +1,7 @@
 import { MovieFromApiDto, MovieSanitizeDto } from "@movies";
 
 export function sanitizeMovieData(
-  raw: MovieFromApiDto,
+  raw: MovieFromApiDto
 ): Partial<MovieSanitizeDto> {
   return {
     externalId: raw.id,

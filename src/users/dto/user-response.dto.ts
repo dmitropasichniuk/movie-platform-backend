@@ -73,7 +73,10 @@ export class UserResponseDto {
   })
   @Expose()
   get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
+    if (this.firstName && this.lastName) {
+      return `${this.firstName} ${this.lastName}`;
+    }
+    return null;
   }
 
   // Exclude sensitive data
