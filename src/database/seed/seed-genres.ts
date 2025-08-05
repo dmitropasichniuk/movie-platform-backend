@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 
 import { genres, sanitizeGenreData } from "@db-seed";
-import { GenreEntity } from "@genre";
+import { GenreEntity } from "../../genre/entities/genres.entity";
 import { LoggerService } from "@utils";
 
 export const seedGenres = async (dataSource: DataSource) => {
@@ -17,13 +17,13 @@ export const seedGenres = async (dataSource: DataSource) => {
       } else {
         LoggerService.log(
           "SeedGenres",
-          `Skipped existing genre: ${genre.name}`,
+          `Skipped existing genre: ${genre.name}`
         );
       }
     } catch (error) {
       LoggerService.warn(
         "SeedGenres",
-        `Skipped invalid genre: ${error.message}`,
+        `Skipped invalid genre: ${error.message}`
       );
     }
   }

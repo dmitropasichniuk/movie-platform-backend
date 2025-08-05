@@ -58,11 +58,11 @@ This project uses **PostgreSQL** as the primary database, running in a dedicated
 
 #### Configuration
 Database credentials are managed via environment variables in the `.env` file:
-DB_HOST=movie_db
-DB_PORT=5432
-DB_NAME=movie_platform
-DB_USERNAME=postgres
-DB_PASSWORD=yourpassword
+PGHOST=movie_db
+PGPORT=5432
+PGDATABASE=movie_platform
+PGUSER=postgres
+PGPASSWORD=yourpassword
 
 #### Data Model Overview
   **users**
@@ -141,6 +141,12 @@ npm run format
 - `.vscode/ — settings for the development environment`
 - `e2e/ — end-to-end tests`
 - `node_modules/ — project dependencies`
+
+---
+
+## 🟢 Production backend
+Backend deployed on Railway:
+https://movie-platform-backend-production.up.railway.app
 
 ---
 
