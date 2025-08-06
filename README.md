@@ -89,18 +89,6 @@ command: sh -c "npm run seed && nest start --watch"
 
 ---
 
-## API Endpoints
-
-All API endpoints are available under:
-
-- **Base URL**: `http://localhost:3001`
-- **Swagger UI**: `http://localhost:3001/api`
-
-The API is fully documented using Swagger (OpenAPI). You can explore all routes, request parameters, and responses there.
-Authentication is required for some endpoints. Use the JWT token in the `Authorization` header (`Bearer <token>`).
-
----
-
 ## Linting & Formatting
 
 The project uses **ESLint** for code linting and **Prettier** for formatting.
@@ -144,9 +132,28 @@ npm run format
 
 ---
 
-## 🟢 Production backend
-Backend deployed on Railway:
-https://movie-platform-backend-production.up.railway.app
+## Deployment
+
+The backend is deployed to [Railway](https://railway.app), running inside a Docker container built from this repository.
+
+### Deployment process:
+- Project is deployed automatically from the `main` branch via GitHub integration
+- Railway builds the Dockerfile and runs `npm run seed && npm run start:prod`
+- PostgreSQL is hosted as a separate Railway service, connected via environment variables
+
+### Production URL
+API base URL: `https://movie-platform-backend-production.up.railway.app`  
+Swagger docs: [`/api/docs`](https://movie-platform-backend-production.up.railway.app/api)
+
+The API is fully documented using Swagger (OpenAPI). You can explore all routes, request parameters, and responses there.
+Authentication is required for some endpoints. Use the JWT token in the `Authorization` header (`Bearer <token>`).
+
+### Environment Variables
+The following environment variables are configured in the Railway dashboard:
+- `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` – PostgreSQL connection
+- `JWT_SECRET` – for authentication
+- `YOUTUBE_API_KEY` – YouTube Data API key
+- `YOUTUBE_BASE_URL`, `YOUTUBE_API_ENDPOINT` – optional (used in YouTubeService)
 
 ---
 
