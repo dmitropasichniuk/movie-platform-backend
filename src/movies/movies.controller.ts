@@ -39,21 +39,14 @@ export class MoviesController {
     required: false,
     type: String,
     description: "Search by movie title",
-    example: "Interstellar",
-  })
-  @ApiQuery({
-    name: "genreIds",
-    required: false,
-    type: [Number],
-    description: "Array of genre IDs to filter by",
-    example: [28, 12, 16],
+    example: "Lilo & Stitch",
   })
   @ApiQuery({
     name: "releaseYear",
     required: false,
     type: Number,
     description: "Movie release year",
-    example: 2014,
+    example: 2025,
   })
   @ApiQuery({
     name: "adult",

@@ -15,7 +15,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 export class MovieFilterDto {
   @ApiPropertyOptional({
     description: "Search by movie title",
-    example: "Interstellar",
+    example: "Lilo & Stitch",
   })
   @IsOptional()
   @IsString()
@@ -23,7 +23,7 @@ export class MovieFilterDto {
 
   @ApiPropertyOptional({
     description: "Array of genre IDs to filter by",
-    example: [28, 12, 16],
+    example: [],
     type: [Number],
   })
   @IsOptional()
@@ -58,7 +58,7 @@ export class MovieFilterDto {
   @IsOptional()
   @IsBoolean()
   @Transform(({ value }) =>
-    value === "true" ? true : value === "false" ? false : undefined,
+    value === "true" ? true : value === "false" ? false : undefined
   )
   adult?: boolean;
 

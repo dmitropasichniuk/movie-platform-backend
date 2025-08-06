@@ -30,12 +30,12 @@ async function bootstrap() {
       transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
-    }),
+    })
   );
 
   // CORS
   app.enableCors({
-    origin: process.env.FRONTEND_ORIGIN ?? "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://flickly-web.vercel.app"],
     credentials: true,
   });
 
@@ -53,7 +53,7 @@ async function bootstrap() {
         description: "Enter JWT token",
         in: "header",
       },
-      "jwt",
+      "jwt"
     )
     .build();
 
@@ -69,7 +69,7 @@ async function bootstrap() {
   // Log the server running message
   const logger = new Logger("Bootstrap");
   logger.log(
-    `Server running on http://localhost:${process.env.BACKEND_PORT ?? 3001}`,
+    `Server running on http://localhost:${process.env.BACKEND_PORT ?? 3001}`
   );
 }
 bootstrap();

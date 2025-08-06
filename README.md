@@ -142,8 +142,8 @@ The backend is deployed to [Railway](https://railway.app), running inside a Dock
 - PostgreSQL is hosted as a separate Railway service, connected via environment variables
 
 ### Production URL
-API base URL: `https://movie-platform-backend-production.up.railway.app`  
-Swagger docs: [`/api/docs`](https://movie-platform-backend-production.up.railway.app/api)
+API base URL: `https://flickly-backend.up.railway.app`  
+Swagger docs: [`/api/docs`](https://flickly-backend.up.railway.app/api)
 
 The API is fully documented using Swagger (OpenAPI). You can explore all routes, request parameters, and responses there.
 Authentication is required for some endpoints. Use the JWT token in the `Authorization` header (`Bearer <token>`).
